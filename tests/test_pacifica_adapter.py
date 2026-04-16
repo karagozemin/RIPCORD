@@ -10,36 +10,34 @@ from ripcord.adapters.pacifica.service import build_snapshot_from_pacifica
 class PacificaAdapterTests(unittest.TestCase):
     def test_mapper_converts_payload_to_snapshot(self) -> None:
         payload = {
-            "equity": 12000,
-            "maintenance_margin_ratio": 0.005,
-            "positions": [
-                {
-                    "symbol": "BTC-PERP",
-                    "side": "long",
-                    "size": 0.5,
-                    "entry_price": 98000,
-                    "mark_price": 97000,
-                    "leverage": 15,
-                    "isolated": False,
-                    "funding_rate_hourly": 0.0002,
-                    "has_tpsl": False,
-                }
-            ],
-            "open_orders": [
-                {
-                    "symbol": "BTC-PERP",
-                    "side": "sell",
-                    "size": 0.1,
-                    "reduce_only": True,
-                }
-            ],
+            "account": {
+                "success": True,
+                "data": {
+                    "account_equity": "12000.0",
+                },
+            },
+            "positions": {
+                "success": True,
+                "data": [
+                    {
+                        "symbol": "BTC-PERP",
+                        "side": "ask",
+                        "amount": "0.5",
+                        "entry_price": "98000",
+                        "isolated": False,
+                        "margin": "1000",
+                    }
+                ],
+            },
+            "open_orders": {"success": True, "data": []},
         }
 
         snapshot = map_state_to_snapshot(payload)
         self.assertEqual(snapshot.equity, 12000)
         self.assertEqual(len(snapshot.positions), 1)
         self.assertEqual(snapshot.positions[0].symbol, "BTC-PERP")
-        self.assertEqual(len(snapshot.open_orders), 1)
+        self.assertEqual(snapshot.positions[0].side, "short")
+        self.assertEqual(len(snapshot.open_orders), 0)
 
     def test_service_reads_from_mock_file(self) -> None:
         data = """
