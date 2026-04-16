@@ -5,7 +5,7 @@ export function ConnectPanel({ accountId, setAccountId, onCreateSession, session
   return (
     <section className="card">
       <h2>Connect your Pacifica account</h2>
-      <p>EVM için RainbowKit, Solana için Wallet Adapter aktif.</p>
+      <p>RainbowKit is enabled for EVM and Wallet Adapter is enabled for Solana.</p>
       <div className="row">
         <ConnectButton />
         <WalletMultiButton />
@@ -16,11 +16,11 @@ export function ConnectPanel({ accountId, setAccountId, onCreateSession, session
           id="accountId"
           value={accountId}
           onChange={(event) => setAccountId(event.target.value)}
-          placeholder="ör: 0x... veya pacifica account"
+          placeholder="example: 0x... or pacifica account"
         />
         <button onClick={onCreateSession}>Create Session</button>
       </div>
-      <p>{sessionReady ? "Session ready ✅" : "Session yok"}</p>
+      <p>{sessionReady ? "Session ready ✅" : "No session"}</p>
     </section>
   );
 }

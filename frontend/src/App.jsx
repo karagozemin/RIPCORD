@@ -44,7 +44,7 @@ export default function App() {
       });
       const data = await response.json();
       if (!response.ok) {
-        throw new Error(data.error?.message || "Session oluşturulamadı");
+        throw new Error(data.error?.message || "Failed to create session");
       }
       setSessionToken(data.token);
     } catch (sessionError) {

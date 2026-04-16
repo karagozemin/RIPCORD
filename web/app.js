@@ -173,7 +173,7 @@ function renderPolicies(payload) {
 function render(payload) {
   const data = payload.data || payload.result;
   if (!data) {
-    throw new Error("Boş payload alındı");
+    throw new Error("Empty payload received");
   }
 
   renderOverview(data, payload);

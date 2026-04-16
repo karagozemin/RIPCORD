@@ -1,38 +1,38 @@
-# RIPCORD Demo Senaryosu (MVP)
+# RIPCORD Demo Scenario (MVP)
 
-## Hikaye Akışı
+## Narrative Flow
 
-1. **Riskli hesap kur**
-   - Testnet/mock hesapta 2-3 yüksek kaldıraç pozisyon aç.
-   - En az bir pozisyon cross-margin bulaşma etkisi yaratacak şekilde olsun.
-   - En az bir pozisyonda negatif funding drag göster.
+1. **Prepare a risky account**
+   - Open 2-3 high-leverage positions on testnet/mock.
+   - Include at least one position that increases cross-margin contagion.
+   - Include at least one position with negative funding drag.
 
-2. **Risk yükselişini göster**
-   - Dashboard `Overview` ve `Risk Breakdown` ekranında:
+2. **Show risk escalation**
+   - In `Overview` and `Risk Breakdown`, show:
      - Risk level (`HIGH/CRITICAL`)
      - Liquidation proximity
      - Symbol risk contribution
      - Funding drag
 
-3. **Arm + Rescue çalıştır**
-   - `Rescue` sekmesinde öneri ve timeline göster:
-     - non-reduce-only order iptali
+3. **Run Arm + Rescue**
+   - In `Rescue`, show recommendation and timeline:
+     - non-reduce-only order cancellation
      - reduce-only batch exit
      - TP/SL attach
-     - policy uygunsa hedge
+     - hedge when policy allows
 
-4. **Firewall etkisini göster**
-   - `Policies` sekmesinde policy ihlalleri ve bloklanan aksiyonları göster.
-   - `execution.ready` durumunu göster (env eksikse `missing` listesi görünür).
+4. **Show firewall impact**
+   - In `Policies`, display policy violations and blocked actions.
+   - Display `execution.ready` (if env is missing, `missing` list is visible).
 
-5. **Replay finali**
-   - `Replay` sekmesinde with/without kıyasını aç:
+5. **Replay finale**
+   - In `Replay`, open with/without comparison:
      - liquidated true/false
      - equity before/after
      - `saved_loss`
 
-## Fallback Planı
+## Fallback Plan
 
-- Adapter endpoint erişilemezse `mode=mock` ile devam et.
-- Execution endpoint hazır değilse sadece `execution prep` göster, emir gönderme.
-- Demo sırasında API hata verirse `Retry` butonu ile akışı tekrar başlat.
+- If adapter endpoint is unreachable, continue with `mode=mock`.
+- If execution endpoint is not ready, show only `execution prep` and do not submit orders.
+- If API fails during demo, restart flow using the `Retry` button.

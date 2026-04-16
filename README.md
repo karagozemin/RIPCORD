@@ -1,15 +1,15 @@
 # RIPCORD MVP
 
-RIPCORD, Pacifica benzeri perpetual trading ortamları için liquidation öncesi otomatik kurtarma planı üreten bir MVP risk execution firewall prototipidir.
+RIPCORD is an MVP risk execution firewall for Pacifica-like perpetual trading environments. It monitors account risk and generates automated rescue plans before liquidation.
 
-## Özellikler
+## Features
 
 - Account Risk Twin: liquidation proximity, cross contagion, funding drag, symbol risk contribution
 - Policy Firewall: `no_liquidation`, `max_daily_drawdown_pct`, `funding_negative_max_hours`, `never_open_new_risk`
 - Rescue Engine: cancel non-reduce orders, reduce-only batch exits, TP/SL attach, optional hedge
-- Counterfactual Replay: `with` vs `without RIPCORD` karşılaştırması
+- Counterfactual Replay: `with` vs `without RIPCORD`
 
-## Hızlı Başlangıç
+## Quick Start
 
 ```bash
 python3 -m pip install .
@@ -19,17 +19,17 @@ PYTHONPATH=src python3 -m ripcord.web_server
 PYTHONPATH=src python3 -m unittest discover -s tests -v
 ```
 
-`ripcord.web_server` komutundan sonra dashboard için `http://127.0.0.1:8787` adresini aç.
+After running `ripcord.web_server`, open `http://127.0.0.1:8787`.
 
-## Yeni Frontend (Vite + Wallet Connect)
+## New Frontend (Vite + Wallet Connect)
 
-`frontend/` altında React tabanlı yeni arayüz kuruldu:
+A React frontend is available under `frontend/`:
 
 - RainbowKit (EVM wallet connect)
 - Solana Wallet Adapter (Phantom/Solflare)
 - WalletConnect Project ID: `e40e7554a29d019bedaad883896164a4`
 
-Çalıştırma:
+Run:
 
 ```bash
 cd frontend
@@ -37,21 +37,21 @@ npm install
 npm run dev
 ```
 
-Frontend: `http://127.0.0.1:5173`
+Frontend URL: `http://127.0.0.1:5173`
 
-Backend API için ayrı terminalde:
+Run backend API in a separate terminal:
 
 ```bash
 PYTHONPATH=src python3 -m ripcord.web_server
 ```
 
-## Pacifica Adapter (RIP-01 başlangıcı)
+## Pacifica Adapter (RIP-01 baseline)
 
-`ripcord.pacifica_cli`, snapshot'ı adapter katmanından alıp aynı risk/rescue döngüsünü çalıştırır.
+`ripcord.pacifica_cli` loads snapshots through the adapter layer and runs the same risk/rescue cycle.
 
-1. `.env.example` dosyasını baz alarak ortam değişkenlerini ayarla.
-2. `RIPCORD_DATA_SOURCE=mock` ile mock payload veya `RIPCORD_DATA_SOURCE=http` ile HTTP endpoint kullan.
-3. Komutu çalıştır:
+1. Configure environment variables from `.env.example`.
+2. Use `RIPCORD_DATA_SOURCE=mock` for mock payloads or `RIPCORD_DATA_SOURCE=http` for HTTP source.
+3. Run:
 
 ```bash
 set -a
@@ -60,39 +60,39 @@ set +a
 PYTHONPATH=src python3 -m ripcord.pacifica_cli
 ```
 
-Mock payload'ı özelleştirmek için `RIPCORD_MOCK_FILE` değerine kendi JSON dosyanı verebilirsin.
+To customize mock payload input, set `RIPCORD_MOCK_FILE` to your JSON file.
 
 ## Frontend Dashboard
 
-`web/` altındaki frontend, local API endpoint'lerinden veri çekerek risk/policy/plan/replay bloklarını canlı gösterir.
+The `web/` frontend pulls data from local API endpoints and renders risk/policy/plan/replay blocks.
 
-- Bilgi mimarisi: `Overview`, `Risk Breakdown`, `Rescue`, `Replay`, `Policies`
-- Canlı veri akışı: auto-refresh, loading/error/empty, retry, stale göstergesi
+- Information architecture: `Overview`, `Risk Breakdown`, `Rescue`, `Replay`, `Policies`
+- Live data flow: auto-refresh, loading/error/empty states, retry, stale indicator
 
 - `GET /api/health`
-- `POST /api/auth/session` (`account_id`) → session token üretir
-- `GET /api/auth/me` (header: `Authorization: Bearer <token>` veya `X-RIPCORD-Session`) → aktif account
+- `POST /api/auth/session` (`account_id`) creates a session token
+- `GET /api/auth/me` with `Authorization: Bearer <token>` or `X-RIPCORD-Session` returns active account
 - `GET /api/run-cycle?mode=mock|adapter&shock_pct=0.07`
-- `POST /api/run-cycle` (`mode`, `shock_pct`, opsiyonel `snapshot`, opsiyonel `policy`, opsiyonel `execution`)
+- `POST /api/run-cycle` with `mode`, `shock_pct`, optional `snapshot`, optional `policy`, optional `execution`
 
-## Production kullanıcı akışı
+## Production User Flow
 
-Kısa cevap: **Evet**, kullanıcı bizim panele girip Pacifica'da kullandığı account/wallet kimliğiyle kendi verisini görür.
+Short answer: **Yes**, users can open your site and view their own Pacifica account data.
 
-Bu MVP backend'de akış şöyle işler:
+Current MVP flow:
 
-1. Frontend, kullanıcıdan Pacifica account kimliğini alır.
-2. `POST /api/auth/session` ile session token oluşturulur.
-3. `adapter` modunda `run-cycle`, session’daki `account_id` ile Pacifica endpointlerine gider.
-4. Böylece kullanıcı panelde kendi account risk/rescue/replay verisini görür.
+1. Frontend takes Pacifica account identity input.
+2. `POST /api/auth/session` creates a session token.
+3. In `adapter` mode, `run-cycle` uses session `account_id` to query Pacifica endpoints.
+4. Users see their account risk/rescue/replay data in the dashboard.
 
-Not: Bu sürümde wallet signature challenge (SIWE benzeri) yok; production-hardening için bir sonraki adım doğrudan wallet imza doğrulamasıdır.
+Note: Wallet signature challenge (SIWE-like) is not implemented yet. The next hardening step is wallet signature verification.
 
-## `/api/run-cycle` Sözleşmesi (stabil)
+## `/api/run-cycle` Contract (stable)
 
 `contract_version: 2026-04-16`
 
-Yanıt gövdesi (özet):
+Response body summary:
 
 - `ok`: boolean
 - `contract_version`: string
@@ -100,15 +100,15 @@ Yanıt gövdesi (özet):
 - `mode`: `mock|adapter`
 - `source`: `mock|adapter|custom`
 - `shock_pct`: float
-- `policy`: efektif policy konfigürasyonu
+- `policy`: effective policy config
 - `data`: `risk`, `policy`, `plan`, `execution`, `replay`
-- `execution`: signed execution request hazırlık bilgisi (`enabled`, `ready`, `missing`, `signed_request`)
+- `execution`: signed execution request preparation payload (`enabled`, `ready`, `missing`, `signed_request`)
 
-Not: Geriye dönük uyumluluk için `result` alanı `data` ile aynı içeriği taşır.
+For backward compatibility, `result` mirrors `data`.
 
-## Execution entegrasyon hazırlığı
+## Execution Integration Preparation
 
-Feature-flag ve imzalı istek hazırlığı `.env` üstünden yönetilir:
+Feature flags and signed request preparation are controlled via `.env`:
 
 - `RIPCORD_EXECUTION_ENABLED=true|false`
 - `PACIFICA_EXECUTION_ENDPOINT=https://...`
@@ -120,31 +120,31 @@ Feature-flag ve imzalı istek hazırlığı `.env` üstünden yönetilir:
 - `RIPCORD_SESSION_TTL_SECONDS=43200`
 - `RIPCORD_STATE_DIR=.ripcord_state`
 
-`POST /api/run-cycle` içinde execution kontrolü:
+Execution control inside `POST /api/run-cycle`:
 
 ```json
 {
-	"mode": "adapter",
-	"execution": {
-		"arm": true,
-		"dry_run": true
-	}
+  "mode": "adapter",
+  "execution": {
+    "arm": true,
+    "dry_run": true
+  }
 }
 ```
 
-- `arm=false` ise live execution tetiklenmez.
-- `dry_run=true` ile imzalı istek yalnızca simüle edilir.
+- `arm=false` prevents live execution attempts.
+- `dry_run=true` simulates signed execution only.
 
-## CLI Çıktısı
+## CLI Output
 
-CLI, örnek bir hesap snapshot'ı üretir ve şu adımları çalıştırır:
+CLI builds a sample account snapshot and runs these steps:
 
-1. Risk hesapla
-2. Policy ihlallerini çıkar
-3. Rescue plan üret
-4. Firewall ile uygula
-5. Replay ile `with/without` farkını göster
+1. Evaluate risk
+2. Evaluate policy violations
+3. Build rescue plan
+4. Apply firewall controls
+5. Run replay `with/without`
 
-## Not
+## Notes
 
-Bu adımda Pacifica adapter katmanı eklendi. `mock` kaynak tamamen yerel çalışır; `http` kaynak ise verdiğin endpoint'ten account state çekerek aynı engine üzerinde risk/rescue/replay üretir.
+This phase includes the Pacifica adapter layer. `mock` is fully local; `http` pulls account state from your endpoint and feeds the same risk/rescue/replay engine.
