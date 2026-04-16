@@ -1,0 +1,53 @@
+{
+  "equity": 12500,
+  "maintenance_margin_ratio": 0.005,
+  "positions": [
+    {
+      "symbol": "BTC-PERP",
+      "side": "long",
+      "size": 0.7,
+      "entry_price": 97500,
+      "mark_price": 96200,
+      "leverage": 18,
+      "isolated": false,
+      "funding_rate_hourly": 0.0002,
+      "has_tpsl": false
+    },
+    {
+      "symbol": "ETH-PERP",
+      "side": "long",
+      "size": 9.0,
+      "entry_price": 3550,
+      "mark_price": 3435,
+      "leverage": 14,
+      "isolated": false,
+      "funding_rate_hourly": 0.00018,
+      "has_tpsl": false
+    },
+    {
+      "symbol": "SOL-PERP",
+      "side": "short",
+      "size": 140,
+      "entry_price": 192,
+      "mark_price": 196,
+      "leverage": 10,
+      "isolated": true,
+      "funding_rate_hourly": 0.00012,
+      "has_tpsl": true
+    }
+  ],
+  "open_orders": [
+    {
+      "symbol": "BTC-PERP",
+      "side": "buy",
+      "size": 0.15,
+      "reduce_only": false
+    },
+    {
+      "symbol": "ETH-PERP",
+      "side": "sell",
+      "size": 1.5,
+      "reduce_only": true
+    }
+  ]
+}
