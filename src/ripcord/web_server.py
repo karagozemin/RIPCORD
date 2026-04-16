@@ -176,8 +176,8 @@ class RipcordHTTPRequestHandler(SimpleHTTPRequestHandler):
 
 def main() -> None:
     _validate_startup_config()
-    host = "127.0.0.1"
-    port = 8787
+    host = os.getenv("RIPCORD_HOST", "0.0.0.0")
+    port = int(os.getenv("PORT", os.getenv("RIPCORD_PORT", "8787")))
     server = ThreadingHTTPServer((host, port), RipcordHTTPRequestHandler)
     print(f"RIPCORD web server running at http://{host}:{port}")
     try:
