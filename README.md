@@ -75,7 +75,7 @@ To customize mock payload input, set `RIPCORD_MOCK_FILE` to your JSON file.
 
 ## Frontend Dashboard
 
-The `web/` frontend pulls data from local API endpoints and renders risk/policy/plan/replay blocks.
+The `frontend/` React dashboard pulls data from API endpoints and renders risk/policy/plan/replay blocks.
 
 - Information architecture: `Overview`, `Risk Breakdown`, `Rescue`, `Replay`, `Policies`
 - Live data flow: auto-refresh, loading/error/empty states, retry, stale indicator
@@ -125,7 +125,7 @@ Feature flags and signed request preparation are controlled via `.env`:
 - `PACIFICA_EXECUTION_ENDPOINT=https://...`
 - `PACIFICA_AGENT_KEY=...`
 - `RIPCORD_SIGNING_SECRET=...`
-- `PACIFICA_OPEN_ORDERS_PATH=/api/v1/open-orders`
+- `PACIFICA_OPEN_ORDERS_PATH=/api/v1/orders`
 - `RIPCORD_REQUIRE_SESSION=true|false`
 - `RIPCORD_SESSION_SECRET=...`
 - `RIPCORD_SESSION_TTL_SECONDS=43200`
