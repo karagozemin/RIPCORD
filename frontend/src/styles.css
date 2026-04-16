@@ -9,7 +9,25 @@ body {
   color: #e9eeff;
 }
 
+#root {
+  min-height: 100vh;
+}
+
+.app-shell {
+  position: relative;
+  min-height: 100vh;
+}
+
+.app-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
 .container {
+  position: relative;
+  z-index: 1;
   max-width: 980px;
   margin: 0 auto;
   padding: 24px;
@@ -47,6 +65,16 @@ button {
   border: none;
 }
 
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ghost {
+  background: transparent;
+  border: 1px solid #3d70ff;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -71,4 +99,14 @@ pre {
 
 .error {
   color: #ff9e9e;
+}
+
+.status {
+  color: #bcd0ff;
+  margin: 6px 0;
+}
+
+.hint {
+  color: #9fb7ef;
+  margin: 6px 0 12px;
 }

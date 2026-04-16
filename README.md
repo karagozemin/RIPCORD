@@ -43,6 +43,15 @@ Run backend API in a separate terminal:
 PYTHONPATH=src python3 -m ripcord.web_server
 ```
 
+### Pre-submit Smoke Checklist
+
+1. Start backend server and verify `http://127.0.0.1:8787/api/health`.
+2. Start frontend with `npm run dev` and open `http://127.0.0.1:5173`.
+3. Connect Solana wallet and enter Pacifica `account_id`.
+4. Create session and confirm `Session ready` appears.
+5. Click `Run Cycle` and verify Risk + Replay values render.
+6. Toggle `Arm execution` + `Dry run` and re-run cycle once.
+
 ## Pacifica Adapter (RIP-01 baseline)
 
 `ripcord.pacifica_cli` loads snapshots through the adapter layer and runs the same risk/rescue cycle.

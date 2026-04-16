@@ -1,10 +1,13 @@
-export function DashboardPanel({ data, onRunCycle, loading, error }) {
+export function DashboardPanel({ data, onRunCycle, loading, error, status, sessionReady, mode }) {
   const risk = data?.data?.risk;
   const replay = data?.data?.replay;
 
   return (
     <section className="card">
       <h2>Read-only Risk Dashboard</h2>
+      <p className="status">Status: {status}</p>
+      <p className="status">Mode: {mode} {mode === "adapter" ? "(live account)" : "(mock fallback)"}</p>
+      {!sessionReady && <p className="hint">Tip: create a session to enable adapter mode.</p>}
       <button onClick={onRunCycle} disabled={loading}>{loading ? "Running..." : "Run Cycle"}</button>
       {error && <p className="error">{error}</p>}
       {risk && (
