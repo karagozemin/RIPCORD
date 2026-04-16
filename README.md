@@ -1,5 +1,9 @@
 # RIPCORD MVP
 
+<p align="center">
+  <img src="public/ripcord-logo.jpeg" alt="RIPCORD logo" width="220" />
+</p>
+
 RIPCORD is an MVP risk execution firewall for Pacifica-like perpetual trading environments. It monitors account risk and generates automated rescue plans before liquidation.
 
 ## Features

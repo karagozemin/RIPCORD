@@ -161,9 +161,12 @@ export default function App() {
       </div>
 
       <main className="container">
-        <header>
-          <h1>RIPCORD Frontend</h1>
-          <p>Connect → Read-only Dashboard → Enable Automation</p>
+        <header className="app-header">
+          <img className="app-logo" src="/ripcord-logo.jpeg" alt="RIPCORD logo" />
+          <div>
+            <h1>RIPCORD </h1>
+            <p>Connect → Read-only Dashboard → Enable Automation</p>
+          </div>
         </header>
         <ConnectPanel
           accountId={accountId}

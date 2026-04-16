@@ -33,6 +33,29 @@ body {
   padding: 24px;
 }
 
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.app-header h1 {
+  margin: 0;
+}
+
+.app-header p {
+  margin: 4px 0 0;
+}
+
+.app-logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 1px solid #24386e;
+}
+
 .card {
   background: #101a37;
   border: 1px solid #24386e;
