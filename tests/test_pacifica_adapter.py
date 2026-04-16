@@ -61,6 +61,40 @@ class PacificaAdapterTests(unittest.TestCase):
         finally:
             os.remove(path)
 
+    def test_mapper_parses_open_orders_from_envelope(self) -> None:
+        payload = {
+            "account": {"data": {"account_equity": "1000"}},
+            "positions": {"data": []},
+            "open_orders": {
+                "data": [
+                    {"symbol": "ETH-PERP", "side": "buy", "size": "0.4", "reduce_only": True},
+                ]
+            },
+        }
+        snapshot = map_state_to_snapshot(payload)
+        self.assertEqual(len(snapshot.open_orders), 1)
+        self.assertTrue(snapshot.open_orders[0].reduce_only)
+
+    def test_mapper_unknown_side_defaults_long(self) -> None:
+        payload = {
+            "equity": 1000,
+            "maintenance_margin_ratio": 0.005,
+            "positions": [
+                {
+                    "symbol": "SOL-PERP",
+                    "side": "weird-side",
+                    "size": 2,
+                    "entry_price": 150,
+                    "mark_price": 148,
+                    "leverage": 4,
+                    "isolated": True,
+                }
+            ],
+            "open_orders": [],
+        }
+        snapshot = map_state_to_snapshot(payload)
+        self.assertEqual(snapshot.positions[0].side, "long")
+
 
 if __name__ == "__main__":
     unittest.main()

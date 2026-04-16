@@ -71,11 +71,12 @@ class HttpPacificaProvider:
         account_query = urllib.parse.urlencode({self.config.account_query_key: self.config.account_id})
         account_payload = self._request_json(self.config.state_path, account_query)
         positions_payload = self._request_json("/api/v1/positions", account_query)
+        open_orders_payload = self._request_json(self.config.open_orders_path, account_query)
 
         return {
             "account": account_payload,
             "positions": positions_payload,
-            "open_orders": {"success": True, "data": []},
+            "open_orders": open_orders_payload,
         }
 
 

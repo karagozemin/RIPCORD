@@ -42,9 +42,74 @@ Mock payload'ı özelleştirmek için `RIPCORD_MOCK_FILE` değerine kendi JSON d
 
 `web/` altındaki frontend, local API endpoint'lerinden veri çekerek risk/policy/plan/replay bloklarını canlı gösterir.
 
+- Bilgi mimarisi: `Overview`, `Risk Breakdown`, `Rescue`, `Replay`, `Policies`
+- Canlı veri akışı: auto-refresh, loading/error/empty, retry, stale göstergesi
+
 - `GET /api/health`
-- `GET /api/run-cycle?mode=mock|adapter`
-- `POST /api/run-cycle` (`mode`, `shock_pct`, opsiyonel `snapshot`)
+- `POST /api/auth/session` (`account_id`) → session token üretir
+- `GET /api/auth/me` (header: `Authorization: Bearer <token>` veya `X-RIPCORD-Session`) → aktif account
+- `GET /api/run-cycle?mode=mock|adapter&shock_pct=0.07`
+- `POST /api/run-cycle` (`mode`, `shock_pct`, opsiyonel `snapshot`, opsiyonel `policy`, opsiyonel `execution`)
+
+## Production kullanıcı akışı
+
+Kısa cevap: **Evet**, kullanıcı bizim panele girip Pacifica'da kullandığı account/wallet kimliğiyle kendi verisini görür.
+
+Bu MVP backend'de akış şöyle işler:
+
+1. Frontend, kullanıcıdan Pacifica account kimliğini alır.
+2. `POST /api/auth/session` ile session token oluşturulur.
+3. `adapter` modunda `run-cycle`, session’daki `account_id` ile Pacifica endpointlerine gider.
+4. Böylece kullanıcı panelde kendi account risk/rescue/replay verisini görür.
+
+Not: Bu sürümde wallet signature challenge (SIWE benzeri) yok; production-hardening için bir sonraki adım doğrudan wallet imza doğrulamasıdır.
+
+## `/api/run-cycle` Sözleşmesi (stabil)
+
+`contract_version: 2026-04-16`
+
+Yanıt gövdesi (özet):
+
+- `ok`: boolean
+- `contract_version`: string
+- `generated_at`: ISO datetime
+- `mode`: `mock|adapter`
+- `source`: `mock|adapter|custom`
+- `shock_pct`: float
+- `policy`: efektif policy konfigürasyonu
+- `data`: `risk`, `policy`, `plan`, `execution`, `replay`
+- `execution`: signed execution request hazırlık bilgisi (`enabled`, `ready`, `missing`, `signed_request`)
+
+Not: Geriye dönük uyumluluk için `result` alanı `data` ile aynı içeriği taşır.
+
+## Execution entegrasyon hazırlığı
+
+Feature-flag ve imzalı istek hazırlığı `.env` üstünden yönetilir:
+
+- `RIPCORD_EXECUTION_ENABLED=true|false`
+- `PACIFICA_EXECUTION_ENDPOINT=https://...`
+- `PACIFICA_AGENT_KEY=...`
+- `RIPCORD_SIGNING_SECRET=...`
+- `PACIFICA_OPEN_ORDERS_PATH=/api/v1/open-orders`
+- `RIPCORD_REQUIRE_SESSION=true|false`
+- `RIPCORD_SESSION_SECRET=...`
+- `RIPCORD_SESSION_TTL_SECONDS=43200`
+- `RIPCORD_STATE_DIR=.ripcord_state`
+
+`POST /api/run-cycle` içinde execution kontrolü:
+
+```json
+{
+	"mode": "adapter",
+	"execution": {
+		"arm": true,
+		"dry_run": true
+	}
+}
+```
+
+- `arm=false` ise live execution tetiklenmez.
+- `dry_run=true` ile imzalı istek yalnızca simüle edilir.
 
 ## CLI Çıktısı
 

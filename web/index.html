@@ -24,27 +24,39 @@
           <label for="shock">Shock %</label>
           <input id="shock" type="number" value="0.07" step="0.01" min="0.01" max="0.5" />
 
+          <label for="autoRefresh">Auto Refresh</label>
+          <input id="autoRefresh" type="checkbox" />
+
+          <label for="interval">Interval (sn)</label>
+          <input id="interval" type="number" value="5" step="1" min="2" max="60" />
+
           <button id="runBtn">Run Cycle</button>
+          <button id="retryBtn" class="secondary">Retry</button>
+        </div>
+        <div class="row status-row">
+          <span id="statusBadge" class="badge badge-low">idle</span>
+          <span id="staleBadge" class="badge badge-medium hidden">stale</span>
+          <span id="lastUpdated">Last updated: -</span>
         </div>
       </section>
 
-      <section class="grid">
-        <article class="card">
-          <h2>Risk</h2>
-          <div id="risk"></div>
-        </article>
-        <article class="card">
-          <h2>Policy</h2>
-          <div id="policy"></div>
-        </article>
-        <article class="card">
-          <h2>Plan</h2>
-          <div id="plan"></div>
-        </article>
-        <article class="card">
-          <h2>Replay</h2>
-          <div id="replay"></div>
-        </article>
+      <section class="tabs card">
+        <button class="tab active" data-view="overview">Overview</button>
+        <button class="tab" data-view="risk">Risk Breakdown</button>
+        <button class="tab" data-view="rescue">Rescue</button>
+        <button class="tab" data-view="replay">Replay</button>
+        <button class="tab" data-view="policies">Policies</button>
+      </section>
+
+      <section id="view-overview" class="view grid"></section>
+      <section id="view-risk" class="view hidden"></section>
+      <section id="view-rescue" class="view hidden"></section>
+      <section id="view-replay" class="view hidden"></section>
+      <section id="view-policies" class="view hidden"></section>
+
+      <section class="card">
+        <h2>Errors / Empty State</h2>
+        <div id="errors">No errors</div>
       </section>
 
       <section class="card">
