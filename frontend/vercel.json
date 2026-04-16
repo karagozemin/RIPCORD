@@ -3,7 +3,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://YOUR-BACKEND-DOMAIN/api/:path*"
+      "destination": "https://ripcord-1.onrender.com/api/:path*"
     }
   ]
 }
