@@ -1,4 +1,4 @@
-# RIPCORD MVP
+# RIPCORD Protocol
 
 <p align="center">
   <img src="public/ripcord-logo.jpeg" alt="RIPCORD logo" width="220" />
