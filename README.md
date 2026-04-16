@@ -21,6 +21,30 @@ PYTHONPATH=src python3 -m unittest discover -s tests -v
 
 `ripcord.web_server` komutundan sonra dashboard için `http://127.0.0.1:8787` adresini aç.
 
+## Yeni Frontend (Vite + Wallet Connect)
+
+`frontend/` altında React tabanlı yeni arayüz kuruldu:
+
+- RainbowKit (EVM wallet connect)
+- Solana Wallet Adapter (Phantom/Solflare)
+- WalletConnect Project ID: `e40e7554a29d019bedaad883896164a4`
+
+Çalıştırma:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Frontend: `http://127.0.0.1:5173`
+
+Backend API için ayrı terminalde:
+
+```bash
+PYTHONPATH=src python3 -m ripcord.web_server
+```
+
 ## Pacifica Adapter (RIP-01 başlangıcı)
 
 `ripcord.pacifica_cli`, snapshot'ı adapter katmanından alıp aynı risk/rescue döngüsünü çalıştırır.

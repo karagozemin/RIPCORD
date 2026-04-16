@@ -12,7 +12,9 @@ from .web_api import run_cycle_payload
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-STATIC_DIR = PROJECT_ROOT / "web"
+LEGACY_STATIC_DIR = PROJECT_ROOT / "web"
+FRONTEND_DIST_DIR = PROJECT_ROOT / "frontend" / "dist"
+STATIC_DIR = FRONTEND_DIST_DIR if FRONTEND_DIST_DIR.exists() else LEGACY_STATIC_DIR
 SESSION_TTL_SECONDS = int(os.getenv("RIPCORD_SESSION_TTL_SECONDS", "43200"))
 REQUIRE_SESSION = os.getenv("RIPCORD_REQUIRE_SESSION", "false").lower().strip() in {"1", "true", "yes", "on"}
 SESSION_STORE = build_session_store()

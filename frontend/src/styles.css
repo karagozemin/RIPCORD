@@ -1,0 +1,74 @@
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+  background: #0a1022;
+  color: #e9eeff;
+}
+
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.card {
+  background: #101a37;
+  border: 1px solid #24386e;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+input,
+select,
+button {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #35539d;
+  background: #0e1734;
+  color: #e9eeff;
+}
+
+button {
+  cursor: pointer;
+  background: #3d70ff;
+  border: none;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.mini-card {
+  background: #0b1431;
+  border: 1px solid #24386e;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+pre {
+  background: #070f25;
+  border: 1px solid #24386e;
+  border-radius: 8px;
+  padding: 10px;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+
+.error {
+  color: #ff9e9e;
+}
