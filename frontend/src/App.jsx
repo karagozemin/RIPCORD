@@ -63,7 +63,12 @@ export default function App() {
       }
       setSessionToken(data.token);
     } catch (sessionError) {
-      setError(sessionError.message);
+      const message = String(sessionError?.message || "");
+      if (message.includes("Failed to fetch") || message.includes("NetworkError")) {
+        setError("Backend API is unreachable. Start `PYTHONPATH=src python3 -m ripcord.web_server` on port 8787.");
+      } else {
+        setError(message || "Failed to create session");
+      }
     }
   }
 
@@ -96,7 +101,12 @@ export default function App() {
       }
       setPayload(data);
     } catch (runError) {
-      setError(runError.message || "Run-cycle failed");
+      const message = String(runError?.message || "");
+      if (message.includes("Failed to fetch") || message.includes("NetworkError")) {
+        setError("Backend API is unreachable. Start `PYTHONPATH=src python3 -m ripcord.web_server` on port 8787.");
+      } else {
+        setError(message || "Run-cycle failed");
+      }
     } finally {
       setLoading(false);
     }
