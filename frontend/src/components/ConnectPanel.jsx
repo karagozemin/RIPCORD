@@ -1,13 +1,11 @@
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
 export function ConnectPanel({ accountId, setAccountId, onCreateSession, sessionReady }) {
   return (
     <section className="card">
       <h2>Connect your Pacifica account</h2>
-      <p>RainbowKit is enabled for EVM and Wallet Adapter is enabled for Solana.</p>
+      <p>Solana wallet connection is enabled via Wallet Adapter.</p>
       <div className="row">
-        <ConnectButton />
         <WalletMultiButton />
       </div>
       <div className="row">

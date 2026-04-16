@@ -21,13 +21,11 @@ PYTHONPATH=src python3 -m unittest discover -s tests -v
 
 After running `ripcord.web_server`, open `http://127.0.0.1:8787`.
 
-## New Frontend (Vite + Wallet Connect)
+## New Frontend (Vite + Solana Wallet Connect)
 
 A React frontend is available under `frontend/`:
 
-- RainbowKit (EVM wallet connect)
 - Solana Wallet Adapter (Phantom/Solflare)
-- WalletConnect Project ID: `e40e7554a29d019bedaad883896164a4`
 
 Run:
 

@@ -34,6 +34,18 @@ export default function App() {
 
   const sessionReady = useMemo(() => Boolean(sessionToken), [sessionToken]);
 
+  async function parseApiResponse(response) {
+    const raw = await response.text();
+    if (!raw || !raw.trim()) {
+      return {};
+    }
+    try {
+      return JSON.parse(raw);
+    } catch {
+      throw new Error(`API returned non-JSON response (status ${response.status})`);
+    }
+  }
+
   async function createSession() {
     setError("");
     try {
@@ -42,9 +54,12 @@ export default function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ account_id: accountId }),
       });
-      const data = await response.json();
+      const data = await parseApiResponse(response);
       if (!response.ok) {
         throw new Error(data.error?.message || "Failed to create session");
+      }
+      if (!data.token) {
+        throw new Error("Session response is missing token");
       }
       setSessionToken(data.token);
     } catch (sessionError) {
@@ -72,13 +87,16 @@ export default function App() {
           },
         }),
       });
-      const data = await response.json();
+      const data = await parseApiResponse(response);
       if (!response.ok) {
         throw new Error(data.error?.message || "run-cycle failed");
       }
+      if (!data || (!data.data && !data.result)) {
+        throw new Error("Run-cycle response is empty or invalid");
+      }
       setPayload(data);
     } catch (runError) {
-      setError(runError.message);
+      setError(runError.message || "Run-cycle failed");
     } finally {
       setLoading(false);
     }
