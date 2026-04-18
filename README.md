@@ -49,7 +49,7 @@ PYTHONPATH=src python3 -m ripcord.web_server
 
 ### Pre-submit Smoke Checklist
 
-1. Start backend server and verify `http://127.0.0.1:8787/api/health`.
+1. Start backend server and verify `https://ripcord-1.onrender.com`.
 2. Start frontend with `npm run dev` and open `http://127.0.0.1:5173`.
 3. Connect Solana wallet and enter Pacifica `account_id`.
 4. Create session and confirm `Session ready` appears.
