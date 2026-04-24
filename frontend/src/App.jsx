@@ -80,7 +80,7 @@ export default function App() {
     } catch (sessionError) {
       const message = String(sessionError?.message || "");
       if (message.includes("Failed to fetch") || message.includes("NetworkError")) {
-        setError("Backend API is unreachable. Start `PYTHONPATH=src python3 -m ripcord.web_server` on port 8787.");
+        setError("Backend API is unreachable. Check https://ripcord-x54g.onrender.com/api/health or your deployment.");
         setStatus("Session failed");
       } else {
         setError(message || "Failed to create session");
@@ -135,7 +135,7 @@ export default function App() {
     } catch (runError) {
       const message = String(runError?.message || "");
       if (message.includes("Failed to fetch") || message.includes("NetworkError")) {
-        setError("Backend API is unreachable. Start `PYTHONPATH=src python3 -m ripcord.web_server` on port 8787.");
+        setError("Backend API is unreachable. Check https://ripcord-x54g.onrender.com/api/health or your deployment.");
         setStatus("Run failed");
       } else {
         setError(message || "Run-cycle failed");
